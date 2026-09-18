@@ -1,0 +1,17 @@
+How do you extend Digilocker to passport or Visa for tourists?
+More on W3C
+Dead Man's switch false positives check
+BLE working
+Where are ST-GNN already put into work?
+Ticketing or Turnstile APIs
+How does it work HMAC (Hash-based Message Authentication Code) / Ed25519?
+
+
+How the problem gets solved: A tourist scans a guide's or taxi's QR code before agreeing to anything. The signature proves the code is genuine and unaltered, the registry API confirms the licence is currently valid (not expired or suspended), and the fair-price oracle shows the legitimate rate range for that exact service — collapsing "is this person real and is this price fair" into one three-second scan, instead of a scam only being discoverable after the money's gone.
+
+WHAT QR CODE? What the hell does a QR code do ?
+
+
+Why would a Tourist help another tourist?
+How does never cheated work? How does QR Code scanning reveal a fair price, where and how does it work?
+What about the false positives alert on a dead man's switch? What if the tourist just forgets to press his alert

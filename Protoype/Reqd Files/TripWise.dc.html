@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#E8E4DA;font-family:"IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#0C2D52}a:hover{color:#E07C1A}@keyframes ysPulse{0%{opacity:.35;transform:scale(.9)}70%{opacity:0;transform:scale(1.9)}100%{opacity:0;transform:scale(1.9)}}@keyframes ysBlink{0%,100%{opacity:1}50%{opacity:.35}}@keyframes ysScan{0%{top:8%}100%{top:88%}}</style></helmet>
+<section style="padding:44px 48px 40px;border-bottom:1px solid rgba(0,0,0,.09)">
+<div style="display:flex;align-items:baseline;gap:12px;margin:0 0 8px">
+<a href="#t1" style="font:600 10px 'IBM Plex Mono',monospace;padding:4px 8px;background:#0C2D52;color:#fff;border-radius:4px;text-decoration:none;letter-spacing:.06em">1</a>
+<span style="font:600 15px/1.2 'IBM Plex Sans',sans-serif;color:#12233A">TripWise — smart tourist safety companion · SIH 2026</span>
+</div>
+<p style="margin:0 0 30px;max-width:760px;font:400 12.5px/1.65 'IBM Plex Sans',sans-serif;color:rgba(18,35,58,.6);text-wrap:pretty">Six connected screens, one system: navy = state authority, saffron = advisory, green = verified. Every frame is live — tap the tab bar to move between screens inside any phone, tap the viewfinder to simulate a scan, hold-free SOS with a 10-second recoverable countdown, and reveal the masked document number on the ID card.</p>
+<div id="t1" style="display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start">
+<sc-for list="{{ frames }}" as="frame" hint-placeholder-count="6">
+<div id="{{ frame.id }}" style="flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:20px">
+<div style="display:flex;align-items:baseline;gap:9px;font:400 11.5px/1.3 'IBM Plex Sans',sans-serif;color:rgba(18,35,58,.55)">
+<a href="{{ frame.href }}" style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(12,45,82,.1);color:#0C2D52;border-radius:5px;text-decoration:none">{{ frame.id }}</a>
+<span>{{ frame.title }}</span>
+</div>
+
+<div style="width:414px;padding:12px;background:#15171A;border-radius:52px;box-shadow:0 18px 44px rgba(12,45,82,.22),inset 0 0 0 1px rgba(255,255,255,.09)">
+<div style="position:relative;width:390px;height:844px;border-radius:40px;overflow:hidden;background:#F4F2ED;display:flex;flex-direction:column">
+
+<sc-if value="{{ frame.showStatus }}" hint-placeholder-val="{{ true }}">
+<div style="flex:none;height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:{{ frame.statusBg }};color:{{ frame.statusFg }}">
+<span style="font:600 13px 'IBM Plex Mono',monospace;letter-spacing:.02em">9:41</span>
+<div style="display:flex;align-items:center;gap:6px">
+<span style="width:15px;height:9px;border-radius:2px;background:currentColor;opacity:.85"></span>
+<span style="width:11px;height:9px;border-radius:2px;background:currentColor;opacity:.55"></span>
+<span style="width:22px;height:10px;border-radius:3px;border:1.5px solid currentColor;opacity:.85"></span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.showChrome }}" hint-placeholder-val="{{ true }}">
+<div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 20px 14px;background:#0C2D52">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:30px;height:30px;border-radius:8px;background:#E07C1A;display:flex;align-items:center;justify-content:center;font:700 12px 'IBM Plex Mono',monospace;color:#0C2D52">TW</div>
+<div style="display:flex;flex-direction:column;gap:1px">
+<span style="font:600 15px/1 'IBM Plex Sans',sans-serif;color:#fff;letter-spacing:-.01em">TripWise</span>
+<span style="font:500 9px/1 'IBM Plex Mono',monospace;color:rgba(255,255,255,.6);letter-spacing:.09em">GOVT-BACKED TOURIST REGISTRY</span>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:2px;padding:3px;border-radius:9px;background:rgba(255,255,255,.12)">
+<button onClick="{{ frame.setEn }}" style="border:0;cursor:pointer;padding:4px 8px;border-radius:6px;font:600 10.5px 'IBM Plex Mono',monospace;background:{{ frame.enBg }};color:{{ frame.enFg }}">EN</button>
+<button onClick="{{ frame.setHi }}" style="border:0;cursor:pointer;padding:4px 8px;border-radius:6px;font:600 10.5px 'IBM Plex Sans',sans-serif;background:{{ frame.hiBg }};color:{{ frame.hiFg }}">हिं</button>
+</div>
+</div>
+</sc-if>
+
+<div style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+
+<sc-if value="{{ frame.isHome }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+<div style="flex:none;position:relative;height:154px;background:repeating-linear-gradient(0deg,#E2DDD2 0 1px,transparent 1px 28px),repeating-linear-gradient(90deg,#E2DDD2 0 1px,transparent 1px 28px),#EDEAE1">
+<div style="position:absolute;left:34px;top:96px;width:250px;height:3px;border-radius:2px;background:linear-gradient(90deg,#0C2D52 0 58%,#E07C1A 58% 100%);transform:rotate(-19deg)"></div>
+<div style="position:absolute;left:30px;top:110px;width:12px;height:12px;border-radius:50%;background:#0C2D52;box-shadow:0 0 0 4px rgba(12,45,82,.16)"></div>
+<div style="position:absolute;left:275px;top:26px;width:12px;height:12px;border-radius:50%;background:#E07C1A;box-shadow:0 0 0 4px rgba(224,124,26,.22)"></div>
+<div style="position:absolute;left:16px;top:14px;display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:8px;background:rgba(255,255,255,.92);box-shadow:0 1px 3px rgba(0,0,0,.1)">
+<span style="width:7px;height:7px;border-radius:50%;background:#17734F;animation:ysBlink 1.8s infinite"></span>
+<span style="font:600 9.5px 'IBM Plex Mono',monospace;color:#12233A;letter-spacing:.09em">LIVE · JAIPUR</span>
+</div>
+<div style="position:absolute;right:16px;bottom:14px;padding:5px 9px;border-radius:8px;background:rgba(12,45,82,.9);font:500 10px 'IBM Plex Mono',monospace;color:#fff">DAY 3 / 5</div>
+</div>
+
+<div style="flex:1;min-height:0;overflow:auto;padding:16px 20px 22px">
+<sc-if value="{{ frame.banner }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:11px;padding:13px 14px;margin:0 0 20px;border-radius:14px;background:#FDF1DE;border:1px solid #F0D2A2">
+<span style="flex:none;width:22px;height:22px;border-radius:7px;background:#E07C1A;color:#fff;font:700 12px 'IBM Plex Sans',sans-serif;display:flex;align-items:center;justify-content:center">↻</span>
+<div style="flex:1;min-width:0">
+<div style="font:600 13px/1.35 'IBM Plex Sans',sans-serif;color:#7A4508">Itinerary updated</div>
+<div style="font:400 12px/1.45 'IBM Plex Sans',sans-serif;color:rgba(122,69,8,.82);text-wrap:pretty">Rerouted due to crowding at Amber Fort. Evening slot booked instead.</div>
+<button onClick="{{ frame.goAlert }}" style="margin-top:8px;border:0;background:none;padding:0;cursor:pointer;font:600 12px 'IBM Plex Sans',sans-serif;color:#0C2D52;text-decoration:underline">See what changed</button>
+</div>
+<button onClick="{{ frame.hideBanner }}" style="flex:none;align-self:flex-start;border:0;background:none;cursor:pointer;font:400 15px 'IBM Plex Sans',sans-serif;color:rgba(122,69,8,.5);line-height:1;padding:0">×</button>
+</div>
+</sc-if>
+
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin:0 0 14px">
+<span style="font:600 17px/1.2 'IBM Plex Sans',sans-serif;color:#12233A;letter-spacing:-.01em">Today · Wed 19 Aug</span>
+<span style="font:500 10.5px 'IBM Plex Mono',monospace;color:#6B7C90;letter-spacing:.07em">4 STOPS</span>
+</div>
+
+<div style="position:relative;padding-left:26px">
+<div style="position:absolute;left:5px;top:8px;bottom:22px;width:2px;background:linear-gradient(180deg,#0C2D52,#C9D2DC)"></div>
+<sc-for list="{{ frame.stops }}" as="stop" hint-placeholder-count="4">
+<div style="position:relative;margin:0 0 12px">
+<span style="position:absolute;left:-26px;top:18px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid {{ stop.dot }}"></span>
+<div style="padding:14px 15px;border-radius:14px;background:#fff;border:1px solid #E3DFD6;box-shadow:0 1px 2px rgba(12,45,82,.05);opacity:{{ stop.opacity }}">
+<div style="display:flex;align-items:center;gap:8px;margin:0 0 6px">
+<span style="font:600 12px 'IBM Plex Mono',monospace;color:#0C2D52;letter-spacing:.02em">{{ stop.time }}</span>
+<span style="display:flex;align-items:center;gap:5px;padding:3px 7px;border-radius:6px;background:{{ stop.bg }}">
+<span style="width:6px;height:6px;border-radius:50%;background:{{ stop.dot }}"></span>
+<span style="font:600 9.5px 'IBM Plex Mono',monospace;color:{{ stop.fg }};letter-spacing:.06em">{{ stop.crowd }}</span>
+</span>
+<sc-if value="{{ stop.isNew }}" hint-placeholder-val="{{ false }}">
+<span style="padding:3px 7px;border-radius:6px;background:#0C2D52;font:600 9.5px 'IBM Plex Mono',monospace;color:#fff;letter-spacing:.06em">NEW</span>
+</sc-if>
+</div>
+<div style="font:600 15px/1.3 'IBM Plex Sans',sans-serif;color:#12233A;letter-spacing:-.01em">{{ stop.name }}</div>
+<div style="margin-top:4px;font:400 12.5px/1.5 'IBM Plex Sans',sans-serif;color:#6B7C90;text-wrap:pretty">{{ stop.note }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.isAlert }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;background:#FBEBD3">
+<sc-if value="{{ frame.notRerouted }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:22px 24px 24px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:8px;background:rgba(224,124,26,.16)">
+<span style="width:7px;height:7px;border-radius:50%;background:#E07C1A;animation:ysBlink 1.6s infinite"></span>
+<span style="font:600 9.5px 'IBM Plex Mono',monospace;color:#7A4508;letter-spacing:.1em">LIVE CROWD ADVISORY</span>
+</span>
+<span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(122,69,8,.65)">16:12 IST</span>
+</div>
+
+<div style="position:relative;width:82px;height:82px;margin:44px 0 26px">
+<span style="position:absolute;inset:0;border-radius:24px;background:#E07C1A;opacity:.28;animation:ysPulse 2.6s infinite"></span>
+<span style="position:absolute;inset:0;border-radius:24px;background:#E07C1A;display:flex;align-items:center;justify-content:center;font:700 40px/1 'IBM Plex Sans',sans-serif;color:#fff">!</span>
+</div>
+
+<h1 style="margin:0;font:600 30px/1.15 'IBM Plex Sans',sans-serif;color:#5E3406;letter-spacing:-.02em;text-wrap:pretty">Amber Fort is critically crowded</h1>
+<p style="margin:14px 0 0;font:400 15.5px/1.55 'IBM Plex Sans',sans-serif;color:rgba(94,52,6,.86);text-wrap:pretty">Footfall at Gate 1 is 2.4× safe capacity.<br>Tourist Police advise avoiding the ramp until 17:30.</p>
+
+<div style="margin-top:26px;padding:16px;border-radius:16px;background:#fff;border:1px solid #EFDCBB">
+<div style="font:600 9.5px 'IBM Plex Mono',monospace;color:#6B7C90;letter-spacing:.1em">SUGGESTED INSTEAD</div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+<div style="flex:none;width:52px;height:52px;border-radius:12px;background:repeating-linear-gradient(135deg,#E7E3DA 0 6px,#F2EFE8 6px 12px);display:flex;align-items:center;justify-content:center;font:500 7.5px 'IBM Plex Mono',monospace;color:#8A8578">SITE</div>
+<div style="flex:1;min-width:0">
+<div style="font:600 16px/1.25 'IBM Plex Sans',sans-serif;color:#12233A">Panna Meena ka Kund</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:5px">
+<span style="display:flex;align-items:center;gap:5px;padding:3px 7px;border-radius:6px;background:#E4F1EA"><span style="width:6px;height:6px;border-radius:50%;background:#17734F"></span><span style="font:600 9.5px 'IBM Plex Mono',monospace;color:#17734F;letter-spacing:.06em">LOW CROWD</span></span>
+<span style="font:500 11.5px 'IBM Plex Mono',monospace;color:#6B7C90">8 min detour</span>
+</div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:13px;border-top:1px dashed #E3DFD6">
+<span style="width:9px;height:9px;border-radius:50%;background:#0C2D52"></span>
+<span style="flex:1;height:2px;background:linear-gradient(90deg,#0C2D52,#E07C1A)"></span>
+<span style="font:500 10.5px 'IBM Plex Mono',monospace;color:#6B7C90">2.1 km · cab held</span>
+<span style="flex:1;height:2px;background:#E07C1A"></span>
+<span style="width:9px;height:9px;border-radius:50%;background:#E07C1A"></span>
+</div>
+</div>
+
+<div style="flex:1"></div>
+<button onClick="{{ frame.reroute }}" style="width:100%;border:0;cursor:pointer;padding:19px;border-radius:16px;background:#0C2D52;color:#fff;font:600 17px 'IBM Plex Sans',sans-serif;letter-spacing:-.01em;box-shadow:0 6px 16px rgba(12,45,82,.28)">Reroute me</button>
+<button onClick="{{ frame.goHome }}" style="width:100%;margin-top:10px;border:0;background:none;cursor:pointer;padding:12px;font:600 14px 'IBM Plex Sans',sans-serif;color:rgba(94,52,6,.72)">Keep my plan</button>
+</div>
+</sc-if>
+<sc-if value="{{ frame.rerouted }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:32px;background:#0C2D52;text-align:center">
+<div style="width:76px;height:76px;border-radius:24px;background:#17734F;display:flex;align-items:center;justify-content:center;font:700 36px/1 'IBM Plex Sans',sans-serif;color:#fff">✓</div>
+<h1 style="margin:0;font:600 27px/1.2 'IBM Plex Sans',sans-serif;color:#fff;letter-spacing:-.02em">Itinerary updated</h1>
+<p style="margin:0;max-width:270px;font:400 15px/1.55 'IBM Plex Sans',sans-serif;color:rgba(255,255,255,.75);text-wrap:pretty">Amber Fort moved to 18:30 for the light show. Your guide and cab were notified.</p>
+<button onClick="{{ frame.goHome }}" style="margin-top:8px;border:0;cursor:pointer;padding:16px 30px;border-radius:14px;background:#E07C1A;color:#0C2D52;font:600 16px 'IBM Plex Sans',sans-serif">Back to today's plan</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.isScan }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column">
+<sc-if value="{{ frame.scanning }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;background:#0A1725">
+<div style="padding:20px 24px 10px">
+<div style="font:600 20px/1.25 'IBM Plex Sans',sans-serif;color:#fff;letter-spacing:-.01em">Trust Rail</div>
+<div style="margin-top:4px;font:400 13px/1.45 'IBM Plex Sans',sans-serif;color:rgba(255,255,255,.6)">Scan a guide, cab or shop QR to check registry status and fair price.</div>
+</div>
+<div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center">
+<div onClick="{{ frame.doScan }}" style="position:relative;width:250px;height:250px;cursor:pointer;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 8px,transparent 8px 16px);border-radius:20px">
+<span style="position:absolute;left:0;top:0;width:44px;height:44px;border-top:3px solid #E07C1A;border-left:3px solid #E07C1A;border-radius:18px 0 0 0"></span>
+<span style="position:absolute;right:0;top:0;width:44px;height:44px;border-top:3px solid #E07C1A;border-right:3px solid #E07C1A;border-radius:0 18px 0 0"></span>
+<span style="position:absolute;left:0;bottom:0;width:44px;height:44px;border-bottom:3px solid #E07C1A;border-left:3px solid #E07C1A;border-radius:0 0 0 18px"></span>
+<span style="position:absolute;right:0;bottom:0;width:44px;height:44px;border-bottom:3px solid #E07C1A;border-right:3px solid #E07C1A;border-radius:0 0 18px 0"></span>
+<span style="position:absolute;left:12px;right:12px;height:2px;background:#E07C1A;box-shadow:0 0 14px #E07C1A;animation:ysScan 2.2s ease-in-out infinite alternate"></span>
+</div>
+</div>
+<div style="padding:0 24px 26px;text-align:center">
+<div style="font:500 12px/1.5 'IBM Plex Mono',monospace;color:rgba(255,255,255,.5);letter-spacing:.04em">TAP THE FRAME TO SIMULATE A SCAN</div>
+<button onClick="{{ frame.doScan }}" style="margin-top:14px;width:100%;border:0;cursor:pointer;padding:17px;border-radius:15px;background:#fff;color:#0C2D52;font:600 16px 'IBM Plex Sans',sans-serif">Enter code manually</button>
+<div style="margin-top:12px;font:400 12px 'IBM Plex Sans',sans-serif;color:rgba(255,255,255,.45)">Works offline · last registry sync 12 min ago</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.verified }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;min-height:0;overflow:auto;padding:18px 20px 24px">
+<div style="border-radius:18px;overflow:hidden;background:#fff;border:1px solid #E3DFD6;box-shadow:0 2px 8px rgba(12,45,82,.08)">
+<div style="display:flex;align-items:center;gap:8px;padding:11px 16px;background:#E4F1EA;border-bottom:1px solid #CBE3D6">
+<span style="width:20px;height:20px;border-radius:50%;background:#17734F;color:#fff;font:700 11px 'IBM Plex Sans',sans-serif;display:flex;align-items:center;justify-content:center">✓</span>
+<span style="font:600 11px 'IBM Plex Mono',monospace;color:#17734F;letter-spacing:.09em">VERIFIED · STATE TOURISM REGISTRY</span>
+</div>
+<div style="padding:18px 16px">
+<div style="display:flex;gap:13px">
+<div style="flex:none;width:58px;height:70px;border-radius:10px;background:repeating-linear-gradient(135deg,#E7E3DA 0 6px,#F2EFE8 6px 12px);display:flex;align-items:center;justify-content:center;font:500 7.5px 'IBM Plex Mono',monospace;color:#8A8578">PHOTO</div>
+<div style="flex:1;min-width:0">
+<div style="font:600 19px/1.2 'IBM Plex Sans',sans-serif;color:#12233A;letter-spacing:-.01em">Rajesh Kumhar</div>
+<div style="margin-top:3px;font:400 13px 'IBM Plex Sans',sans-serif;color:#6B7C90">Approved heritage guide · Hindi, English, French</div>
+<div style="margin-top:9px;display:flex;flex-wrap:wrap;gap:6px">
+<span style="padding:4px 8px;border-radius:6px;background:#F4F2ED;font:500 10.5px 'IBM Plex Mono',monospace;color:#12233A">★ 4.8 · 612 trips</span>
+<span style="padding:4px 8px;border-radius:6px;background:#F4F2ED;font:500 10.5px 'IBM Plex Mono',monospace;color:#12233A">9 yrs</span>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;padding-top:15px;border-top:1px solid #EDEAE1">
+<div><div style="font:600 9.5px 'IBM Plex Mono',monospace;color:#6B7C90;letter-spacing:.09em">LICENCE NO.</div><div style="margin-top:3px;font:500 13px 'IBM Plex Mono',monospace;color:#12233A">RTG/RJ/17-4419</div></div>
+<div><div style="font:600 9.5px 'IBM Plex Mono',monospace;color:#6B7C90;letter-spacing:.09em">STATUS</div><div style="margin-top:3px;font:500 13px 'IBM Plex Mono',monospace;color:#17734F">Valid → 31 Mar 27</div></div>
+</div>
+</div>
+<div style="padding:16px;background:#FAF8F4;border-top:1px solid #EDEAE1">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<span style="font:600 9.5px 'IBM Plex Mono',monospace;color:#6B7C90;letter-spacing:.09em">FAIR PRICE · HALF-DAY GUIDE</span>
+<span style="font:600 20px 'IBM Plex Sans',sans-serif;color:#12233A;letter-spacing:-.01em">₹400–600</span>
+</div>
+<div style="position:relative;height:14px;margin:40px 0 0;border-radius:7px;background:#E7E3DA">
+<span style="position:absolute;left:22%;width:36%;top:0;bottom:0;border-radius:7px;background:#17734F"></span>
+<span style="position:absolute;left:50%;top:-9px;bottom:-9px;width:3px;border-radius:2px;background:#0C2D52"></span>
+<span style="position:absolute;left:50%;top:-30px;transform:translateX(-50%);padding:3px 7px;border-radius:6px;background:#0C2D52;font:600 10px 'IBM Plex Mono',monospace;color:#fff;white-space:nowrap">QUOTED ₹550</span>
+</div>
+<div style="display:flex;justify-content:space-between;margin-top:8px;font:500 10.5px 'IBM Plex Mono',monospace;color:#6B7C90"><span>₹200</span><span>₹1,000+</span></div>
+<div style="margin-top:12px;font:400 12.5px/1.45 'IBM Plex Sans',sans-serif;color:#17734F">Within the fair range for Amber Fort in peak season.</div>
+</div>
+</div>
+<div style="display:flex;gap:10px;margin-top:16px">
+<button onClick="{{ frame.showUnreg }}" style="flex:1;border:1px solid #E3DFD6;cursor:pointer;padding:15px;border-radius:14px;background:#fff;color:#0C2D52;font:600 14px 'IBM Plex Sans',sans-serif">Unregistered example</button>
+<button onClick="{{ frame.rescan }}" style="flex:1;border:0;cursor:pointer;padding:15px;border-radius:14px;background:#0C2D52;color:#fff;font:600 14px 'IBM Plex Sans',sans-serif">Scan again</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.unreg }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;overflow:auto;padding:18px 20px 24px">
+<div style="border-radius:18px;overflow:hidden;background:#fff;border:1px solid #F0D2A2;box-shadow:0 2px 8px rgba(12,45,82,.08)">
+<div style="display:flex;align-items:center;gap:8px;padding:11px 16px;background:#FDF1DE;border-bottom:1px solid #F0D2A2">
+<span style="width:20px;height:20px;border-radius:50%;background:#E07C1A;color:#fff;font:700 12px 'IBM Plex Sans',sans-serif;display:flex;align-items:center;justify-content:center">!</span>
+<span style="font:600 11px 'IBM Plex Mono',monospace;color:#7A4508;letter-spacing:.09em">NOT IN THE REGISTRY</span>
+</div>
+<div style="padding:18px 16px">
+<div style="font:600 19px/1.2 'IBM Plex Sans',sans-serif;color:#12233A;letter-spacing:-.01em">“Pink City Tours & Cabs”</div>
+<div style="margin-top:5px;font:400 13.5px/1.5 'IBM Plex Sans',sans-serif;color:#6B7C90;text-wrap:pretty">This QR does not match any licensed guide, cab or shop. No licence, insurance or complaint history exists.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;padding-top:15px;border-top:1px solid #EDEAE1">
+<div><div style="font:600 9.5px 'IBM Plex Mono',monospace;color:#6B7C90;letter-spacing:.09em">LICENCE NO.</div><div style="margin-top:3px;font:500 13px 'IBM Plex Mono',monospace;color:#B3261E">No record</div></div>
+<div><div style="font:600 9.5px 'IBM Plex Mono',monospace;color:#6B7C90;letter-spacing:.09em">STATUS</div><div style="margin-top:3px;font:500 13px 'IBM Plex Mono',monospace;color:#B3261E">Unverified</div></div>
+</div>
+</div>
+<div style="padding:16px;background:#FAF8F4;border-top:1px solid #EDEAE1">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<span style="font:600 9.5px 'IBM Plex Mono',monospace;color:#6B7C90;letter-spacing:.09em">QUOTED VS FAIR RANGE</span>
+<span style="font:600 20px 'IBM Plex Sans',sans-serif;color:#B3261E;letter-spacing:-.01em">₹1,200</span>
+</div>
+<div style="position:relative;height:14px;margin:40px 0 0;border-radius:7px;background:#E7E3DA">
+<span style="position:absolute;left:14%;width:26%;top:0;bottom:0;border-radius:7px;background:#17734F"></span>
+<span style="position:absolute;left:84%;top:-9px;bottom:-9px;width:3px;border-radius:2px;background:#B3261E"></span>
+<span style="position:absolute;right:0;top:-30px;padding:3px 7px;border-radius:6px;background:#B3261E;font:600 10px 'IBM Plex Mono',monospace;color:#fff;white-space:nowrap">2.4× FAIR</span>
+</div>
+<div style="display:flex;justify-content:space-between;margin-top:8px;font:500 10.5px 'IBM Plex Mono',monospace;color:#6B7C90"><span>₹200</span><span>₹1,400+</span></div>
+</div>
+</div>
+<div style="display:flex;gap:10px;margin-top:16px">
+<button onClick="{{ frame.showVerified }}" style="flex:1;border:1px solid #E3DFD6;cursor:pointer;padding:15px;border-radius:14px;background:#fff;color:#0C2D52;font:600 14px 'IBM Plex Sans',sans-serif">Verified example</button>
+<button onClick="{{ frame.rescan }}" style="flex:1;border:0;cursor:pointer;padding:15px;border-radius:14px;background:#E07C1A;color:#0C2D52;font:600 14px 'IBM Plex Sans',sans-serif">Report this QR</button>
+</div>
+<div style="margin-top:14px;padding:13px 14px;border-radius:14px;background:#F4F2ED;font:400 12px/1.5 'IBM Plex Sans',sans-serif;color:#6B7C90;text-wrap:pretty">Reports go to the district tourism officer. Your name is never shared with the vendor.</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.isSos }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;background:#F4F2ED">
+<sc-if value="{{ frame.sosIdle }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:20px 24px 24px">
+<div style="display:flex;align-items:center;gap:9px;padding:11px 13px;border-radius:12px;background:#fff;border:1px solid #E3DFD6">
+<span style="width:8px;height:8px;border-radius:50%;background:#17734F;animation:ysBlink 2s infinite"></span>
+<span style="flex:1;font:400 12.5px/1.4 'IBM Plex Sans',sans-serif;color:#12233A">Location shared with <strong style="font-weight:600">Jaipur Tourist Police</strong></span>
+<span style="font:500 10px 'IBM Plex Mono',monospace;color:#6B7C90">GPS ±6m</span>
+</div>
+
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px">
+<button onClick="{{ frame.pressSos }}" style="position:relative;width:232px;height:232px;border-radius:50%;border:0;cursor:pointer;background:#A3241C;box-shadow:0 14px 34px rgba(163,36,28,.34),inset 0 0 0 10px rgba(255,255,255,.14)">
+<span style="position:absolute;inset:-14px;border-radius:50%;background:#A3241C;opacity:.22;animation:ysPulse 3s infinite"></span>
+<span style="position:relative;display:block;font:700 56px/1 'IBM Plex Sans',sans-serif;color:#fff;letter-spacing:.04em">SOS</span>
+<span style="position:relative;display:block;margin-top:8px;font:600 11px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.82);letter-spacing:.14em">TAP TO ALERT</span>
+</button>
+<div style="text-align:center;max-width:280px">
+<div style="font:600 15px/1.35 'IBM Plex Sans',sans-serif;color:#12233A">Sends police, your contacts and hotel</div>
+<div style="margin-top:4px;font:400 12.5px/1.45 'IBM Plex Sans',sans-serif;color:#6B7C90">10 seconds to cancel · works over SMS if offline</div>
+</div>
+</div>
+
+<div style="padding:15px 16px;border-radius:16px;background:#0C2D52">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div>
+<div style="font:600 9.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.55);letter-spacing:.09em">CHECK-IN TIMER</div>
+<div style="margin-top:5px;font:600 22px/1 'IBM Plex Mono',monospace;color:#fff;letter-spacing:.01em">{{ frame.checkIn }}</div>
+</div>
+<button onClick="{{ frame.extend }}" style="border:1px solid rgba(255,255,255,.28);cursor:pointer;padding:9px 14px;border-radius:10px;background:rgba(255,255,255,.1);color:#fff;font:600 12.5px 'IBM Plex Sans',sans-serif">+30 min</button>
+</div>
+<div style="height:4px;margin-top:13px;border-radius:2px;background:rgba(255,255,255,.16);overflow:hidden">
+<span style="display:block;height:100%;width:{{ frame.checkInPct }};background:#E07C1A"></span>
+</div>
+<div style="margin-top:9px;font:400 11.5px/1.45 'IBM Plex Sans',sans-serif;color:rgba(255,255,255,.62);text-wrap:pretty">If you don't check in, we alert your contacts automatically.</div>
+</div>
+<div style="display:flex;gap:10px;margin-top:12px">
+<button style="flex:1;border:1px solid #E3DFD6;cursor:pointer;padding:14px;border-radius:13px;background:#fff;color:#0C2D52;font:600 13.5px 'IBM Plex Sans',sans-serif">Call 112</button>
+<button onClick="{{ frame.goBystander }}" style="flex:1;border:1px solid #E3DFD6;cursor:pointer;padding:14px;border-radius:13px;background:#fff;color:#0C2D52;font:600 13.5px 'IBM Plex Sans',sans-serif">Bystander screen</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.sosConfirm }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:32px 26px;background:#0A1725;text-align:center">
+<div style="font:600 11px 'IBM Plex Mono',monospace;color:#E07C1A;letter-spacing:.16em">SENDING EMERGENCY ALERT</div>
+<div style="position:relative;width:196px;height:196px;border-radius:50%;background:conic-gradient(#A3241C {{ frame.ringPct }},rgba(255,255,255,.12) 0);display:flex;align-items:center;justify-content:center">
+<div style="width:164px;height:164px;border-radius:50%;background:#0A1725;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+<span style="font:600 68px/1 'IBM Plex Mono',monospace;color:#fff">{{ frame.count }}</span>
+<span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.55);letter-spacing:.12em">SECONDS</span>
+</div>
+</div>
+<p style="margin:0;max-width:280px;font:400 15px/1.55 'IBM Plex Sans',sans-serif;color:rgba(255,255,255,.78);text-wrap:pretty">Police, your two emergency contacts and Hotel Rambagh Gate will receive your live location.</p>
+<button onClick="{{ frame.cancelSos }}" style="width:100%;border:0;cursor:pointer;padding:21px;border-radius:16px;background:#fff;color:#0C2D52;font:700 19px 'IBM Plex Sans',sans-serif;letter-spacing:-.01em">Cancel — I'm safe</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.sosSent }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:28px 24px 24px;background:#0A1725">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="width:9px;height:9px;border-radius:50%;background:#A3241C;animation:ysBlink 1.2s infinite"></span>
+<span style="font:600 11px 'IBM Plex Mono',monospace;color:#fff;letter-spacing:.14em">SOS ACTIVE · 00:42</span>
+</div>
+<h1 style="margin:26px 0 0;font:600 29px/1.2 'IBM Plex Sans',sans-serif;color:#fff;letter-spacing:-.02em">Help is on the way</h1>
+<p style="margin:12px 0 0;font:400 15px/1.55 'IBM Plex Sans',sans-serif;color:rgba(255,255,255,.72);text-wrap:pretty">Unit PCR-14 acknowledged, 4 min away. Stay where you are if it is safe.</p>
+<div style="margin-top:24px;display:flex;flex-direction:column;gap:9px">
+<div style="display:flex;align-items:center;gap:11px;padding:14px;border-radius:13px;background:rgba(255,255,255,.07)"><span style="width:20px;height:20px;border-radius:50%;background:#17734F;color:#fff;font:700 11px 'IBM Plex Sans',sans-serif;display:flex;align-items:center;justify-content:center">✓</span><span style="flex:1;font:500 13.5px 'IBM Plex Sans',sans-serif;color:#fff">Tourist Police notified</span><span style="font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.5)">16:14</span></div>
+<div style="display:flex;align-items:center;gap:11px;padding:14px;border-radius:13px;background:rgba(255,255,255,.07)"><span style="width:20px;height:20px;border-radius:50%;background:#17734F;color:#fff;font:700 11px 'IBM Plex Sans',sans-serif;display:flex;align-items:center;justify-content:center">✓</span><span style="flex:1;font:500 13.5px 'IBM Plex Sans',sans-serif;color:#fff">Contacts sent live location</span><span style="font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.5)">16:14</span></div>
+</div>
+<div style="flex:1"></div>
+<button onClick="{{ frame.goBystander }}" style="width:100%;border:0;cursor:pointer;padding:19px;border-radius:16px;background:#E07C1A;color:#0A1725;font:600 17px 'IBM Plex Sans',sans-serif">Show bystander screen</button>
+<button onClick="{{ frame.cancelSos }}" style="width:100%;margin-top:10px;border:0;background:none;cursor:pointer;padding:12px;font:600 14px 'IBM Plex Sans',sans-serif;color:rgba(255,255,255,.6)">End emergency</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.isBystander }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;background:#0B0B0C">
+<div style="flex:none;padding:26px 22px;background:#A3241C">
+<div style="font:600 12px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.8);letter-spacing:.18em">EMERGENCY · आपातकाल</div>
+<div style="margin-top:14px;font:700 44px/1.02 'IBM Plex Sans',sans-serif;color:#fff;letter-spacing:-.025em">THIS PERSON NEEDS HELP</div>
+<div style="margin-top:12px;font:600 20px/1.3 'IBM Plex Sans',sans-serif;color:rgba(255,255,255,.92)">इस व्यक्ति को मदद चाहिए</div>
+</div>
+<div style="flex:1;min-height:0;overflow:auto;padding:22px">
+<a href="#1e" style="display:flex;align-items:center;justify-content:center;gap:14px;padding:26px;border-radius:18px;background:#fff;text-decoration:none">
+<span style="font:700 46px/1 'IBM Plex Sans',sans-serif;color:#0B0B0C;letter-spacing:-.02em">CALL 112</span>
+</a>
+<div style="margin-top:20px;display:flex;flex-direction:column;gap:2px">
+<div style="padding:18px 20px;background:#17181A;border-radius:16px 16px 0 0">
+<div style="font:600 12px 'IBM Plex Mono',monospace;color:#9AA3AD;letter-spacing:.14em">BLOOD GROUP</div>
+<div style="margin-top:6px;font:700 40px/1 'IBM Plex Sans',sans-serif;color:#fff">O positive</div>
+</div>
+<div style="padding:18px 20px;background:#17181A">
+<div style="font:600 12px 'IBM Plex Mono',monospace;color:#9AA3AD;letter-spacing:.14em">ALLERGIES</div>
+<div style="margin-top:6px;font:700 30px/1.1 'IBM Plex Sans',sans-serif;color:#F2A93B">Penicillin · Peanuts</div>
+</div>
+<div style="padding:18px 20px;background:#17181A">
+<div style="font:600 12px 'IBM Plex Mono',monospace;color:#9AA3AD;letter-spacing:.14em">CONDITION</div>
+<div style="margin-top:6px;font:600 26px/1.2 'IBM Plex Sans',sans-serif;color:#fff">Asthma — inhaler in left bag pocket</div>
+</div>
+<div style="padding:18px 20px;background:#17181A;border-radius:0 0 16px 16px">
+<div style="font:600 12px 'IBM Plex Mono',monospace;color:#9AA3AD;letter-spacing:.14em">NAME · NATIONALITY</div>
+<div style="margin-top:6px;font:600 26px/1.2 'IBM Plex Sans',sans-serif;color:#fff">Lena Moreau · France</div>
+</div>
+</div>
+<div style="margin-top:18px;padding:16px 18px;border-radius:14px;border:2px solid #2A2C30">
+<div style="font:600 12px 'IBM Plex Mono',monospace;color:#9AA3AD;letter-spacing:.14em">LIVE LOCATION SENT TO POLICE</div>
+<div style="margin-top:6px;font:500 18px/1.3 'IBM Plex Sans',sans-serif;color:#fff">Jaleb Chowk, Amer · unit 4 min away</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ frame.isId }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;overflow:auto;padding:18px 20px 24px">
+<div style="position:relative;overflow:hidden;border-radius:20px;padding:20px;background:radial-gradient(circle at 84% 12%,rgba(224,124,26,.22),transparent 58%),repeating-linear-gradient(118deg,rgba(255,255,255,.055) 0 1px,transparent 1px 7px),#0C2D52;box-shadow:0 10px 26px rgba(12,45,82,.3)">
+<div style="position:absolute;right:-46px;bottom:-56px;width:190px;height:190px;border-radius:50%;border:1px solid rgba(255,255,255,.09);box-shadow:0 0 0 14px rgba(255,255,255,.035),0 0 0 30px rgba(255,255,255,.03)"></div>
+<div style="position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+<div>
+<div style="font:600 9.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.6);letter-spacing:.16em">DIGITAL TOURIST ID</div>
+<div style="margin-top:5px;font:600 10px 'IBM Plex Mono',monospace;color:#E07C1A;letter-spacing:.09em">NATIONAL TOURIST REGISTRY · IN</div>
+</div>
+<span style="display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:8px;background:rgba(23,115,79,.9)">
+<span style="font:700 11px 'IBM Plex Sans',sans-serif;color:#fff">✓</span>
+<span style="font:600 9.5px 'IBM Plex Mono',monospace;color:#fff;letter-spacing:.08em">VERIFIED</span>
+</span>
+</div>
+<div style="position:relative;display:flex;gap:14px;margin-top:20px">
+<div style="flex:none;width:78px;height:98px;border-radius:10px;background:repeating-linear-gradient(135deg,rgba(255,255,255,.14) 0 6px,rgba(255,255,255,.06) 6px 12px);display:flex;align-items:center;justify-content:center;font:500 7.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.7)">PHOTO</div>
+<div style="flex:1;min-width:0">
+<div style="font:600 23px/1.15 'IBM Plex Sans',sans-serif;color:#fff;letter-spacing:-.015em">Lena Moreau</div>
+<div style="margin-top:4px;font:500 12.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.65)">FRA · F · 12 Apr 1994</div>
+<div style="margin-top:14px;font:600 9.5px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.5);letter-spacing:.12em">PASSPORT NO.</div>
+<div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+<span style="font:600 18px 'IBM Plex Mono',monospace;color:#fff;letter-spacing:.06em">{{ frame.docNo }}</span>
+<button onClick="{{ frame.toggleReveal }}" style="border:1px solid rgba(255,255,255,.3);cursor:pointer;padding:4px 9px;border-radius:7px;background:rgba(255,255,255,.1);color:#fff;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.06em">{{ frame.revealLabel }}</button>
+</div>
+</div>
+</div>
+<div style="position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.14)">
+<div><div style="font:600 9px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.5);letter-spacing:.12em">VISA</div><div style="margin-top:3px;font:500 13px 'IBM Plex Mono',monospace;color:#fff">e-Tourist · 30d</div></div>
+<div><div style="font:600 9px 'IBM Plex Mono',monospace;color:rgba(255,255,255,.5);letter-spacing:.12em">VALID TO</div><div style="margin-top:3px;font:500 13px 'IBM Plex Mono',monospace;color:#fff">14 Sep 2026</div></div>
+</div>
+</div>
+
+<div style="display:flex;gap:12px;margin-top:14px;padding:15px;border-radius:16px;background:#fff;border:1px solid #E3DFD6">
+<div style="flex:none;width:64px;height:64px;border-radius:10px;background:repeating-linear-gradient(90deg,#12233A 0 3px,#fff 3px 6px),repeating-linear-gradient(0deg,#12233A 0 3px,#fff 3px 6px);background-blend-mode:screen"></div>
+<div style="flex:1;min-width:0">
+<div style="font:600 14px/1.3 'IBM Plex Sans',sans-serif;color:#12233A">Offline verification code</div>
+<div style="margin-top:4px;font:400 12px/1.45 'IBM Plex Sans',sans-serif;color:#6B7C90;text-wrap:pretty">Show this to police or hotel staff. Rotates every 60s — no data leaves your phone.</div>
+</div>
+</div>
+
+<div style="margin-top:14px;display:flex;flex-direction:column;gap:2px;border-radius:16px;overflow:hidden;border:1px solid #E3DFD6;background:#fff">
+<div style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid #EDEAE1"><span style="width:26px;height:26px;border-radius:8px;background:#E4F1EA;color:#17734F;font:700 12px 'IBM Plex Sans',sans-serif;display:flex;align-items:center;justify-content:center">✓</span><span style="flex:1;font:500 14px 'IBM Plex Sans',sans-serif;color:#12233A">Emergency medical profile</span><span style="font:500 11px 'IBM Plex Mono',monospace;color:#6B7C90">SHARED</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid #EDEAE1"><span style="width:26px;height:26px;border-radius:8px;background:#E4F1EA;color:#17734F;font:700 12px 'IBM Plex Sans',sans-serif;display:flex;align-items:center;justify-content:center">✓</span><span style="flex:1;font:500 14px 'IBM Plex Sans',sans-serif;color:#12233A">Travel insurance · Axa 8841</span><span style="font:500 11px 'IBM Plex Mono',monospace;color:#6B7C90">ACTIVE</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:15px 16px"><span style="width:26px;height:26px;border-radius:8px;background:#FDF1DE;color:#E07C1A;font:700 12px 'IBM Plex Sans',sans-serif;display:flex;align-items:center;justify-content:center">!</span><span style="flex:1;font:500 14px 'IBM Plex Sans',sans-serif;color:#12233A">Restricted-area permit (Ladakh)</span><span style="font:500 11px 'IBM Plex Mono',monospace;color:#E07C1A">ADD</span></div>
+</div>
+<div style="margin-top:14px;font:400 11.5px/1.5 'IBM Plex Sans',sans-serif;color:#6B7C90;text-wrap:pretty">Document data stays encrypted on device. Only your name, photo and verification status are shared when scanned.</div>
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{ frame.showChrome }}" hint-placeholder-val="{{ true }}">
+<div style="flex:none;display:flex;align-items:stretch;gap:2px;padding:8px 10px 22px;background:#fff;border-top:1px solid #E3DFD6">
+<button onClick="{{ frame.goHome }}" style="flex:1;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0;color:{{ frame.cHome }}">
+<span style="font:400 15px/1 'IBM Plex Sans',sans-serif">◆</span><span style="font:600 10px 'IBM Plex Sans',sans-serif;letter-spacing:.02em">Trip</span>
+</button>
+<button onClick="{{ frame.goAlert }}" style="flex:1;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0;color:{{ frame.cAlert }}">
+<span style="font:400 15px/1 'IBM Plex Sans',sans-serif">▲</span><span style="font:600 10px 'IBM Plex Sans',sans-serif;letter-spacing:.02em">Alerts</span>
+</button>
+<button onClick="{{ frame.goScan }}" style="flex:1;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0;color:{{ frame.cScan }}">
+<span style="font:400 15px/1 'IBM Plex Sans',sans-serif">○</span><span style="font:600 10px 'IBM Plex Sans',sans-serif;letter-spacing:.02em">Scan</span>
+</button>
+<button onClick="{{ frame.goSos }}" style="flex:1;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0;color:{{ frame.cSos }}">
+<span style="font:400 15px/1 'IBM Plex Sans',sans-serif">●</span><span style="font:600 10px 'IBM Plex Sans',sans-serif;letter-spacing:.02em">SOS</span>
+</button>
+<button onClick="{{ frame.goId }}" style="flex:1;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0;color:{{ frame.cId }}">
+<span style="font:400 15px/1 'IBM Plex Sans',sans-serif">▤</span><span style="font:600 10px 'IBM Plex Sans',sans-serif;letter-spacing:.02em">ID</span>
+</button>
+</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+<p style="margin:30px 0 0;font:400 12px/1.6 'IBM Plex Sans',sans-serif;color:rgba(18,35,58,.5)">Try next: “make the bystander screen auto-rotate English ↔ Hindi every 4s” · “add an offline / low-connectivity state to the trip screen” · “new directions for the ID card”</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showUpdateBanner&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demo state&quot;},&quot;scanDefault&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;scanning&quot;,&quot;verified&quot;,&quot;unregistered&quot;],&quot;default&quot;:&quot;verified&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Demo state&quot;},&quot;checkInMinutes&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:42,&quot;min&quot;:5,&quot;max&quot;:90,&quot;unit&quot;:&quot;min&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Demo state&quot;}}">
+const NAVY = "#0C2D52", MUTED = "#93A0AE";
+const SCREENS = [
+  { key: "home", id: "1a", title: "Home / adaptive itinerary" },
+  { key: "alert", id: "1b", title: "Crowd alert & reroute" },
+  { key: "scan", id: "1c", title: "Trust Rail — scan result" },
+  { key: "sos", id: "1d", title: "SOS & check-in timer" },
+  { key: "bystander", id: "1e", title: "Bystander mode" },
+  { key: "id", id: "1f", title: "Digital ID wallet" }
+];
+const STOPS = [
+  { time: "09:10", name: "Hawa Mahal", crowd: "LOW", note: "Photo stop, 25 min. Entry via Gate 2 — shorter queue.", dot: "#17734F", bg: "#E4F1EA", fg: "#17734F", opacity: 0.62 },
+  { time: "10:40", name: "Panna Meena ka Kund", crowd: "MODERATE", note: "Swapped in for Amber Fort. 8 min detour, guide informed.", dot: "#E07C1A", bg: "#FDF1DE", fg: "#7A4508", isNew: true, opacity: 1 },
+  { time: "13:00", name: "Jantar Mantar", crowd: "LOW", note: "Shaded seating near the sundial. Water refill point inside.", dot: "#17734F", bg: "#E4F1EA", fg: "#17734F", opacity: 1 },
+  { time: "18:30", name: "Amber Fort — light show", crowd: "HIGH AT 16:00", note: "Moved to the evening slot. Tickets re-issued, no fee.", dot: "#B3261E", bg: "#FBE6E4", fg: "#B3261E", opacity: 1 }
+];
+
+class Component extends DCLogic {
+  state = { f: null };
+  timers = {};
+
+  init() {
+    const scan = this.props.scanDefault || "verified";
+    return SCREENS.map(s => ({
+      cur: s.key, lang: "EN", reveal: false, scan: scan, sos: "idle",
+      count: 10, rerouted: false, banner: this.props.showUpdateBanner !== false,
+      checkMin: this.props.checkInMinutes || 42
+    }));
+  }
+
+  frames() { return this.state.f || this.init(); }
+
+  set(i, patch) {
+    this.setState(s => {
+      const f = (s.f || this.init()).slice();
+      f[i] = Object.assign({}, f[i], patch);
+      return { f: f };
+    });
+  }
+
+  startCountdown(i) {
+    this.set(i, { sos: "confirm", count: 10 });
+    clearInterval(this.timers[i]);
+    this.timers[i] = setInterval(() => {
+      const cur = this.frames()[i];
+      if (!cur || cur.sos !== "confirm") { clearInterval(this.timers[i]); return; }
+      if (cur.count <= 1) { clearInterval(this.timers[i]); this.set(i, { sos: "sent", count: 0 }); }
+      else this.set(i, { count: cur.count - 1 });
+    }, 1000);
+  }
+
+  componentWillUnmount() { Object.keys(this.timers).forEach(k => clearInterval(this.timers[k])); }
+
+  renderVals() {
+    const fr = this.frames();
+    const go = (i, key) => () => { clearInterval(this.timers[i]); this.set(i, { cur: key, sos: key === "sos" ? "idle" : fr[i].sos }); };
+    const mins = m => (m >= 60 ? Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0") + ":18" : m + ":18");
+
+    return {
+      frames: fr.map((f, i) => {
+        const active = k => (f.cur === k ? NAVY : MUTED);
+        const dark = f.cur === "scan" && f.scan === "scanning" || f.cur === "bystander" ||
+          (f.cur === "sos" && f.sos !== "idle") || (f.cur === "alert" && f.rerouted);
+        return {
+          id: SCREENS[i].id, href: "#" + SCREENS[i].id, title: SCREENS[i].title,
+          showStatus: f.cur !== "bystander",
+          showChrome: f.cur !== "bystander" && f.cur !== "alert" && !(f.cur === "sos" && f.sos !== "idle") && !(f.cur === "scan" && f.scan === "scanning"),
+          statusBg: dark ? "#0A1725" : "#0C2D52", statusFg: "#ffffff",
+          isHome: f.cur === "home", isAlert: f.cur === "alert", isScan: f.cur === "scan",
+          isSos: f.cur === "sos", isBystander: f.cur === "bystander", isId: f.cur === "id",
+          banner: f.banner, stops: STOPS,
+          rerouted: f.rerouted, notRerouted: !f.rerouted,
+          scanning: f.scan === "scanning", verified: f.scan === "verified", unreg: f.scan === "unregistered",
+          sosIdle: f.sos === "idle", sosConfirm: f.sos === "confirm", sosSent: f.sos === "sent",
+          count: f.count, ringPct: Math.round((f.count / 10) * 100) + "%",
+          checkIn: mins(f.checkMin), checkInPct: Math.max(6, Math.min(100, Math.round((f.checkMin / 90) * 100))) + "%",
+          docNo: f.reveal ? "FR 8241 4821" : "•• •••• 4821",
+          revealLabel: f.reveal ? "HIDE" : "REVEAL",
+          enBg: f.lang === "EN" ? "#ffffff" : "transparent", enFg: f.lang === "EN" ? NAVY : "rgba(255,255,255,.7)",
+          hiBg: f.lang === "HI" ? "#ffffff" : "transparent", hiFg: f.lang === "HI" ? NAVY : "rgba(255,255,255,.7)",
+          cHome: active("home"), cAlert: active("alert"), cScan: active("scan"), cSos: active("sos"), cId: active("id"),
+          goHome: go(i, "home"), goAlert: () => this.set(i, { cur: "alert", rerouted: false }),
+          goScan: go(i, "scan"), goSos: go(i, "sos"), goId: go(i, "id"),
+          goBystander: go(i, "bystander"),
+          setEn: () => this.set(i, { lang: "EN" }), setHi: () => this.set(i, { lang: "HI" }),
+          hideBanner: () => this.set(i, { banner: false }),
+          reroute: () => this.set(i, { rerouted: true }),
+          doScan: () => this.set(i, { scan: "verified" }),
+          rescan: () => this.set(i, { scan: "scanning" }),
+          showUnreg: () => this.set(i, { scan: "unregistered" }),
+          showVerified: () => this.set(i, { scan: "verified" }),
+          toggleReveal: () => this.set(i, { reveal: !f.reveal }),
+          pressSos: () => this.startCountdown(i),
+          cancelSos: () => { clearInterval(this.timers[i]); this.set(i, { sos: "idle" }); },
+          extend: () => this.set(i, { checkMin: Math.min(90, f.checkMin + 30) })
+        };
+      })
+    };
+  }
+}
+
+</script>
+</body>
+</html>
